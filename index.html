@@ -76,12 +76,29 @@
       font-weight: 750;
       color: var(--muted);
     }
+.main-time{
+    font-variant-numeric: tabular-nums;
+    letter-spacing:-0.02em;
+}
 
+.temperature{
+    font-variant-numeric: tabular-nums;
+    letter-spacing:0.015em;
+}
+
+.retirement-number{
+    font-variant-numeric: tabular-nums;
+    letter-spacing:0.02em;
+}
+
+    
     .main-time {
       margin-top: clamp(8px, 0.9vw, 14px);
       font-size: calc(clamp(3.6rem, 7vw, 7.2rem) * var(--ui-scale));
       font-weight: 900;
-      letter-spacing: -0.07em;
+      letter-spacing: -0.03em;
+      font-kerning: normal;
+      font-variant-numeric: tabular-nums;
       color: var(--gold);
     }
 
@@ -188,7 +205,8 @@
     .temp {
       font-size: clamp(3rem, 5.9vw, 7rem);
       font-weight: 900;
-      letter-spacing: -0.08em;
+      letter-spacing: 0.015em;
+      font-variant-numeric: tabular-nums;
       line-height: 0.85;
       white-space: nowrap;
     }
