@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life at a Glance</title>
+
+  <style>
+    :root {
+      --bg: #071f1a;
+      --bg-dark: #041512;
+      --tile: #123b32;
+      --tile-2: #18483d;
+      --accent: #7ddf9c;
+      --gold: #e7c76f;
+      --text: #f4f7ef;
+      --muted: #a9b9ae;
+      --line: rgba(244, 247, 239, 0.14);
+      --shadow: rgba(0, 0, 0, 0.28);
+      --error: #ffb4a8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(125, 223, 156, 0.10), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(231, 199, 111, 0.08), transparent 32%),
+        linear-gradient(135deg, var(--bg), var(--bg-dark));
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      padding: clamp(12px, 2vw, 32px);
+    }
+
+    .dashboard {
+      width: min(96vw, 1800px);
+      height: min(96vh, 1040px);
+      display: grid;
+      grid-template-rows: auto 1fr 1fr auto;
+      gap: clamp(12px, 1.8vh, 24px);
+    }
+
+    .lockscreen-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(2px, 0.5vh, 8px);
+    }
+
+    .day {
+      font-size: clamp(24px, 3.2vw, 38px);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.3px;
+      line-height: 1;
+    }
+
+    .date {
+      font-size: clamp(17px, 2vw, 26px);
+      font-weight: 600;
+      color: var(--muted);
+      line-height: 1.1;
+    }
+
+    .main-time {
+      font-size: clamp(44px, 6.2vw, 76px);
+      font-weight: 850;
+      letter-spacing: -3px;
+      color: var(--gold);
+      line-height: 0.95;
+    }
+
+    .title {
+      font-size: clamp(15px, 1.5vw, 24px);
+      font-weight: 750;
+      color: var(--accent);
+      letter-spacing: clamp(1.5px, 0.25vw, 3px);
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .tile-grid {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(12px, 1.8vw, 28px);
+    }
+
+    .tile {
+      min-width: 0;
+      min-height: 0;
+      background: linear-gradient(180deg, var(--tile-2), var(--tile));
+      border-radius: clamp(18px, 2vw, 30px);
+      box-shadow: 0 18px 46px var(--shadow);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .weather-card .card-header {
+      width: 100%;
+      padding: clamp(12px, 1.5vw, 20px) clamp(16px, 2vw, 28px);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .location-block {
+      text-align: left;
+      min-width: 0;
+    }
+
+    .location-main {
+      font-size: clamp(18px, 1.7vw, 24px);
+      font-weight: 850;
+      color: var(--text);
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .location-sub {
+      margin-top: 2px;
+      font-size: clamp(12px, 1.1vw, 16px);
+      font-weight: 600;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .local-time {
+      font-size: clamp(14px, 1.4vw, 20px);
+      font-weight: 850;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .weather-body {
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      padding: clamp(12px, 1.5vw, 20px) clamp(16px, 2vw, 28px) clamp(14px, 1.8vw, 24px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .main-weather {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(14px, 2vw, 24px);
+      margin-bottom: clamp(6px, 1vh, 10px);
+    }
+
+    .icon {
+      font-size: clamp(36px, 4.6vw, 58px);
+      line-height: 1;
+    }
+
+    .temp {
+      font-size: clamp(50px, 6.5vw, 82px);
+      font-weight: 850;
+      letter-spacing: clamp(-5px, -0.35vw, -2px);
+      line-height: 0.9;
+    }
+
+    .degree {
+      font-size: clamp(24px, 3.2vw, 38px);
+      color: var(--accent);
+      vertical-align: top;
+      margin-left: 2px;
+    }
+
+    .condition {
+      font-size: clamp(17px, 1.7vw, 23px);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.15;
+    }
+
+    .feels {
+      font-size: clamp(15px, 1.45vw, 20px);
+      font-weight: 650;
+      color: var(--muted);
+      margin-bottom: clamp(10px, 1.5vh, 18px);
+    }
+
+    .detail-area {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(8px, 1vw, 14px);
+      border-top: 1px solid var(--line);
+      padding-top: clamp(10px, 1.5vh, 18px);
+    }
+
+    .detail-box {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .detail-label {
+      font-size: clamp(10px, 0.95vw, 14px);
+      font-weight: 750;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .detail-value {
+      font-size: clamp(17px, 1.75vw, 24px);
+      font-weight: 850;
+      color: var(--text);
+    }
+
+    .tomorrow {
+      color: var(--accent);
+    }
+
+    .error {
+      margin-top: 8px;
+      color: var(--error);
+      font-size: clamp(11px, 1vw, 15px);
+      font-weight: 650;
+    }
+
+    .placeholder-card {
+      background: linear-gradient(180deg, rgba(24, 72, 61, 0.82), rgba(18, 59, 50, 0.82));
+      justify-content: center;
+      padding: clamp(18px, 2.2vw, 34px);
+    }
+
+    .placeholder-label {
+      font-size: clamp(12px, 1.2vw, 18px);
+      font-weight: 800;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: clamp(12px, 2vh, 24px);
+    }
+
+    .placeholder-title {
+      font-size: clamp(26px, 3.6vw, 44px);
+      font-weight: 850;
+      color: var(--text);
+      letter-spacing: -1px;
+      margin-bottom: clamp(8px, 1.3vh, 14px);
+      line-height: 1;
+    }
+
+    .placeholder-status {
+      font-size: clamp(17px, 1.9vw, 24px);
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .placeholder-note {
+      margin-top: clamp(8px, 1.3vh, 14px);
+      font-size: clamp(13px, 1.25vw, 18px);
+      font-weight: 600;
+      color: var(--muted);
+      max-width: 360px;
+      line-height: 1.35;
+    }
+
+    .footer {
+      font-size: clamp(11px, 1vw, 16px);
+      font-weight: 650;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.4px;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        align-items: flex-start;
+        overflow: auto;
+        padding: 16px;
+      }
+
+      .dashboard {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        grid-template-rows: auto auto auto auto;
+      }
+
+      .tile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tile {
+        min-height: 260px;
+      }
+
+      .weather-card .card-header {
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .location-block {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="dashboard">
+
+    <header class="lockscreen-header">
+      <div class="day" id="mainDay">Loading</div>
+      <div class="date" id="mainDate">Loading date</div>
+      <div class="main-time" id="mainTime">--:--</div>
+      <div class="title">Life at a Glance</div>
+    </header>
+
+    <section class="tile-grid" id="weatherGrid"></section>
+
+    <section class="tile-grid">
+      <section class="tile placeholder-card">
+        <div class="placeholder-label">Module One</div>
+        <div class="placeholder-title">Aircraft</div>
+        <div class="placeholder-status">Coming Soon</div>
+        <div class="placeholder-note">Future KSKF / KSAT traffic count within selected radius.</div>
+      </section>
+
+      <section class="tile placeholder-card countdown-card">
+        <div class="placeholder-title" id="retirementCountdown">--- DAYS</div>
+        <div class="placeholder-status">Retirement</div>
+        <div class="placeholder-note">Until September 17, 2028</div>
+      </section>
+
+      <section class="tile placeholder-card">
+        <div class="placeholder-label">Module Three</div>
+        <div class="placeholder-title">Calendar</div>
+        <div class="placeholder-status">Coming Soon</div>
+        <div class="placeholder-note">Future Google Calendar connection and next events.</div>
+      </section>
+    </section>
+
+    <div class="footer" id="footerStatus">Weather refreshes every 15 minutes</div>
+  </main>
+
+  <script>
+    const WEATHER_TILES = [
+      {
+        main: "Omaha",
+        sub: "Nebraska",
+        weatherLat: 41.2565,
+        weatherLon: -95.9345,
+        airport: "KOMA",
+        timeZone: "America/Chicago"
+      },
+      {
+        main: "San Antonio",
+        sub: "Texas",
+        weatherLat: 29.4241,
+        weatherLon: -98.4936,
+        airport: "KSAT",
+        timeZone: "America/Chicago"
+      },
+      {
+        main: "Norfolk",
+        sub: "Virginia",
+        weatherLat: 36.8508,
+        weatherLon: -76.2859,
+        airport: "KORF",
+        timeZone: "America/New_York"
+      }
+    ];
+
+    function cToF(celsius) {
+      if (celsius === null || celsius === undefined) return null;
+      return Math.round((celsius * 9 / 5) + 32);
+    }
+
+    function heatIndexF(tempF, humidity) {
+      if (tempF === null || humidity === null) return tempF;
+      if (tempF < 80 || humidity < 40) return tempF;
+
+      const T = tempF;
+      const R = humidity;
+
+      return Math.round(
+        -42.379 +
+        2.04901523 * T +
+        10.14333127 * R -
+        0.22475541 * T * R -
+        0.00683783 * T * T -
+        0.05481717 * R * R +
+        0.00122874 * T * T * R +
+        0.00085282 * T * R * R -
+        0.00000199 * T * T * R * R
+      );
+    }
+
+    function iconForForecast(text) {
+      const value = String(text || "").toLowerCase();
+
+      if (value.includes("thunder")) return "⛈️";
+      if (value.includes("rain") || value.includes("showers") || value.includes("drizzle")) return "🌧️";
+      if (value.includes("snow") || value.includes("flurries")) return "❄️";
+      if (value.includes("fog") || value.includes("mist")) return "🌫️";
+      if (value.includes("cloudy") || value.includes("overcast")) return "☁️";
+      if (value.includes("partly") || value.includes("mostly sunny")) return "🌤️";
+      if (value.includes("sunny") || value.includes("clear")) return "☀️";
+
+      return "⛅";
+    }
+
+    function formatTimeForZone(timeZone) {
+      return new Date().toLocaleTimeString("en-US", {
+        timeZone,
+        hour: "numeric",
+        minute: "2-digit"
+      });
+    }
+
+    function updateMainClock() {
+      const now = new Date();
+
+      document.getElementById("mainDay").textContent =
+        now.toLocaleDateString("en-US", { weekday: "long" });
+
+      document.getElementById("mainDate").textContent =
+        now.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric"
+        });
+
+      document.getElementById("mainTime").textContent =
+        now.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit"
+        });
+    }
+
+    function createWeatherCard(city, index) {
+      const card = document.createElement("section");
+      card.className = "tile weather-card";
+      card.id = `weather-card-${index}`;
+
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="location-block">
+            <div class="location-main">${city.main}</div>
+            <div class="location-sub">${city.sub} · ${city.airport}</div>
+          </div>
+          <div class="local-time" id="city-time-${index}">--:--</div>
+        </div>
+
+        <div class="weather-body">
+          <div class="main-weather">
+            <div class="icon" id="weather-icon-${index}">⛅</div>
+            <div class="temp">
+              <span id="weather-temp-${index}">--</span><span class="degree">°</span>
+            </div>
+          </div>
+
+          <div class="condition" id="weather-condition-${index}">Loading...</div>
+          <div class="feels">Feels Like <span id="weather-feels-${index}">--</span>°</div>
+
+          <div class="detail-area">
+            <div class="detail-box">
+              <div class="detail-label">Humidity</div>
+              <div class="detail-value"><span id="weather-humidity-${index}">--</span>%</div>
+            </div>
+
+            <div class="detail-box">
+              <div class="detail-label">Tomorrow</div>
+              <div class="detail-value tomorrow" id="weather-tomorrow-${index}">--° / --°</div>
+            </div>
+          </div>
+
+          <div class="error" id="weather-error-${index}"></div>
+        </div>
+      `;
+
+      document.getElementById("weatherGrid").appendChild(card);
+    }
+
+    function updateWeatherTileClocks() {
+      WEATHER_TILES.forEach((city, index) => {
+        const element = document.getElementById(`city-time-${index}`);
+        if (element) element.textContent = formatTimeForZone(city.timeZone);
+      });
+    }
+
+    async function getLatestObservationFromStations(stations) {
+      for (const stationFeature of stations.features) {
+        const stationId = stationFeature.properties.stationIdentifier;
+        const observationUrl = `https://api.weather.gov/stations/${stationId}/observations/latest`;
+
+        try {
+          const response = await fetch(observationUrl);
+          if (!response.ok) continue;
+
+          const data = await response.json();
+
+          if (
+            data &&
+            data.properties &&
+            data.properties.temperature &&
+            data.properties.temperature.value !== null
+          ) {
+            return data;
+          }
+        } catch (error) {
+          continue;
+        }
+      }
+
+      throw new Error("No usable observation stations found");
+    }
+
+    async function loadWeather(city, index) {
+      const errorElement = document.getElementById(`weather-error-${index}`);
+
+      try {
+        const pointUrl = `https://api.weather.gov/points/${city.weatherLat},${city.weatherLon}`;
+        const pointResponse = await fetch(pointUrl);
+        if (!pointResponse.ok) throw new Error("Unable to load weather point data");
+
+        const pointData = await pointResponse.json();
+        const forecastUrl = pointData.properties.forecast;
+        const stationsUrl = pointData.properties.observationStations;
+
+        const [forecastResponse, stationsResponse] = await Promise.all([
+          fetch(forecastUrl),
+          fetch(stationsUrl)
+        ]);
+
+        if (!forecastResponse.ok || !stationsResponse.ok) {
+          throw new Error("Unable to load forecast or station data");
+        }
+
+        const forecastData = await forecastResponse.json();
+        const stationsData = await stationsResponse.json();
+        const observationData = await getLatestObservationFromStations(stationsData);
+
+        const current = observationData.properties;
+        const periods = forecastData.properties.periods;
+
+        const currentTempF = cToF(current.temperature.value);
+
+        const humidity =
+          current.relativeHumidity && current.relativeHumidity.value !== null
+            ? Math.round(current.relativeHumidity.value)
+            : null;
+
+        const feelsLike = humidity !== null ? heatIndexF(currentTempF, humidity) : currentTempF;
+        const currentForecast = periods[0];
+
+        const tomorrowDay = periods.find(period => {
+          const periodDate = new Date(period.startTime);
+          const now = new Date();
+          return period.isDaytime && periodDate.getDate() !== now.getDate();
+        });
+
+        const tomorrowNight = periods.find(period => {
+          if (!tomorrowDay) return false;
+
+          const periodDate = new Date(period.startTime);
+          const tomorrowDate = new Date(tomorrowDay.startTime);
+
+          return !period.isDaytime && periodDate.getDate() === tomorrowDate.getDate();
+        });
+
+        document.getElementById(`weather-temp-${index}`).textContent = currentTempF ?? "--";
+        document.getElementById(`weather-feels-${index}`).textContent = feelsLike ?? "--";
+        document.getElementById(`weather-humidity-${index}`).textContent = humidity ?? "--";
+        document.getElementById(`weather-condition-${index}`).textContent = currentForecast.shortForecast || "Current conditions";
+        document.getElementById(`weather-icon-${index}`).textContent = iconForForecast(currentForecast.shortForecast);
+
+        if (tomorrowDay && tomorrowNight) {
+          document.getElementById(`weather-tomorrow-${index}`).textContent =
+            `${tomorrowDay.temperature}° / ${tomorrowNight.temperature}°`;
+        }
+
+        errorElement.textContent = "";
+      } catch (error) {
+        console.error(`${city.main} weather error:`, error);
+        errorElement.textContent = "Weather unavailable";
+      }
+    }
+
+    function loadAllWeather() {
+      WEATHER_TILES.forEach((city, index) => loadWeather(city, index));
+
+      const now = new Date();
+      document.getElementById("footerStatus").textContent =
+        "Last weather refresh · " +
+        now.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit"
+        });
+    }
+
+
+    const RETIREMENT_DATE = new Date("2028-09-17T00:00:00");
+
+    function updateRetirementCountdown() {
+      const now = new Date();
+      const millisecondsPerDay = 1000 * 60 * 60 * 24;
+      const difference = RETIREMENT_DATE - now;
+      const daysRemaining = Math.max(0, Math.ceil(difference / millisecondsPerDay));
+      const element = document.getElementById("retirementCountdown");
+
+      if (element) {
+        element.textContent = daysRemaining + " DAYS";
+      }
+    }
+
+    WEATHER_TILES.forEach((city, index) => createWeatherCard(city, index));
+
+    updateMainClock();
+    updateWeatherTileClocks();
+    updateRetirementCountdown();
+    loadAllWeather();
+
+    setInterval(updateMainClock, 1000);
+    setInterval(updateWeatherTileClocks, 1000);
+    setInterval(updateRetirementCountdown, 60 * 60 * 1000);
+    setInterval(loadAllWeather, 15 * 60 * 1000);
+  </script>
+</body>
+</html>
