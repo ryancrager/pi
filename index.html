@@ -22,11 +22,21 @@
       --error: #ffb4a8;
       --ui-scale: 1;
     }
+/* ---------- Typography Normalization ---------- */
+    * * {
+    box-sizing: border-box;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+html {
+    -webkit-text-size-adjust: 100%;
+}
 
+body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+/* ---------- Page Layout ---------- */
     html {
       width: 100%;
       min-height: 100%;
