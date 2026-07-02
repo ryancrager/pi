@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
   <title>Life at a Glance</title>
 
   <style>
@@ -11,6 +12,7 @@
       --bg-dark: #041512;
       --tile: #123b32;
       --tile-2: #18483d;
+      --tile-3: #0f332c;
       --accent: #7ddf9c;
       --gold: #e7c76f;
       --text: #f4f7ef;
@@ -24,11 +26,16 @@
       box-sizing: border-box;
     }
 
-    html,
+    html {
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg-dark);
+    }
+
     body {
       margin: 0;
       width: 100%;
-      min-height: 100%;
+      min-height: 100dvh;
       background:
         radial-gradient(circle at top left, rgba(125, 223, 156, 0.10), transparent 34%),
         radial-gradient(circle at bottom right, rgba(231, 199, 111, 0.08), transparent 32%),
@@ -37,21 +44,13 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      padding: clamp(12px, 2vw, 32px);
-    }
-
     .dashboard {
-      width: min(96vw, 1800px);
-      height: min(96vh, 1040px);
+      width: 100%;
+      min-height: 100dvh;
+      padding: clamp(14px, 2vw, 38px);
       display: grid;
-      grid-template-rows: auto 1fr 1fr auto;
-      gap: clamp(12px, 1.8vh, 24px);
+      grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr) auto;
+      gap: clamp(12px, 1.6vw, 28px);
     }
 
     .lockscreen-header {
@@ -60,53 +59,53 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: clamp(2px, 0.5vh, 8px);
-    }
-
-    .day {
-      font-size: clamp(24px, 3.2vw, 38px);
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.3px;
       line-height: 1;
     }
 
+    .day {
+      font-size: clamp(1.7rem, 3.2vw, 3.6rem);
+      font-weight: 850;
+      color: var(--text);
+      letter-spacing: -0.04em;
+    }
+
     .date {
-      font-size: clamp(17px, 2vw, 26px);
-      font-weight: 600;
+      margin-top: clamp(4px, 0.5vw, 8px);
+      font-size: clamp(1rem, 1.7vw, 2rem);
+      font-weight: 750;
       color: var(--muted);
-      line-height: 1.1;
     }
 
     .main-time {
-      font-size: clamp(44px, 6.2vw, 76px);
-      font-weight: 850;
-      letter-spacing: -3px;
+      margin-top: clamp(8px, 0.9vw, 14px);
+      font-size: clamp(3.6rem, 7vw, 7.2rem);
+      font-weight: 900;
+      letter-spacing: -0.07em;
       color: var(--gold);
-      line-height: 0.95;
     }
 
     .title {
-      font-size: clamp(15px, 1.5vw, 24px);
-      font-weight: 750;
+      margin-top: clamp(8px, 0.9vw, 16px);
+      font-size: clamp(0.9rem, 1.35vw, 1.8rem);
+      font-weight: 850;
       color: var(--accent);
-      letter-spacing: clamp(1.5px, 0.25vw, 3px);
+      letter-spacing: clamp(0.15em, 0.4vw, 0.35em);
       text-transform: uppercase;
-      line-height: 1.1;
     }
 
     .tile-grid {
+      width: 100%;
       min-height: 0;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: clamp(12px, 1.8vw, 28px);
+      gap: clamp(12px, 1.6vw, 28px);
     }
 
     .tile {
       min-width: 0;
       min-height: 0;
       background: linear-gradient(180deg, var(--tile-2), var(--tile));
-      border-radius: clamp(18px, 2vw, 30px);
+      border-radius: clamp(20px, 1.9vw, 34px);
       box-shadow: 0 18px 46px var(--shadow);
       border: 1px solid var(--line);
       overflow: hidden;
@@ -118,24 +117,24 @@
 
     .weather-card .card-header {
       width: 100%;
-      padding: clamp(12px, 1.5vw, 20px) clamp(16px, 2vw, 28px);
+      padding: clamp(12px, 1.2vw, 22px) clamp(16px, 1.7vw, 30px);
       border-bottom: 1px solid var(--line);
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       gap: 12px;
     }
 
     .location-block {
-      text-align: left;
       min-width: 0;
+      text-align: left;
     }
 
     .location-main {
-      font-size: clamp(18px, 1.7vw, 24px);
-      font-weight: 850;
+      font-size: clamp(1.1rem, 1.55vw, 2rem);
+      font-weight: 900;
       color: var(--text);
-      letter-spacing: -0.2px;
+      letter-spacing: -0.03em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -143,8 +142,8 @@
 
     .location-sub {
       margin-top: 2px;
-      font-size: clamp(12px, 1.1vw, 16px);
-      font-weight: 600;
+      font-size: clamp(0.72rem, 0.9vw, 1.2rem);
+      font-weight: 700;
       color: var(--muted);
       white-space: nowrap;
       overflow: hidden;
@@ -152,8 +151,8 @@
     }
 
     .local-time {
-      font-size: clamp(14px, 1.4vw, 20px);
-      font-weight: 850;
+      font-size: clamp(0.9rem, 1.15vw, 1.55rem);
+      font-weight: 900;
       color: var(--gold);
       white-space: nowrap;
     }
@@ -162,11 +161,11 @@
       width: 100%;
       flex: 1;
       min-height: 0;
-      padding: clamp(12px, 1.5vw, 20px) clamp(16px, 2vw, 28px) clamp(14px, 1.8vw, 24px);
-      display: flex;
-      flex-direction: column;
+      padding: clamp(12px, 1.2vw, 22px) clamp(16px, 1.7vw, 30px);
+      display: grid;
+      grid-template-rows: auto auto auto minmax(0, auto) auto;
       align-items: center;
-      justify-content: center;
+      justify-items: center;
       text-align: center;
     }
 
@@ -174,42 +173,46 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: clamp(14px, 2vw, 24px);
-      margin-bottom: clamp(6px, 1vh, 10px);
+      gap: clamp(12px, 1.4vw, 28px);
+      margin-bottom: clamp(4px, 0.5vw, 10px);
+      min-width: 0;
     }
 
     .icon {
-      font-size: clamp(36px, 4.6vw, 58px);
+      font-size: clamp(2rem, 4.1vw, 5rem);
       line-height: 1;
+      flex: 0 0 auto;
     }
 
     .temp {
-      font-size: clamp(50px, 6.5vw, 82px);
-      font-weight: 850;
-      letter-spacing: clamp(-5px, -0.35vw, -2px);
-      line-height: 0.9;
+      font-size: clamp(3rem, 5.9vw, 7rem);
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      line-height: 0.85;
+      white-space: nowrap;
     }
 
     .degree {
-      font-size: clamp(24px, 3.2vw, 38px);
+      font-size: 0.45em;
       color: var(--accent);
       vertical-align: top;
-      margin-left: 2px;
+      margin-left: 0.03em;
     }
 
     .condition {
-      font-size: clamp(17px, 1.7vw, 23px);
-      font-weight: 800;
+      max-width: 94%;
+      font-size: clamp(1rem, 1.6vw, 2rem);
+      font-weight: 900;
       color: var(--text);
-      margin-bottom: 4px;
-      line-height: 1.15;
+      line-height: 1.05;
+      margin-bottom: clamp(2px, 0.3vw, 6px);
     }
 
     .feels {
-      font-size: clamp(15px, 1.45vw, 20px);
-      font-weight: 650;
+      font-size: clamp(0.9rem, 1.15vw, 1.45rem);
+      font-weight: 750;
       color: var(--muted);
-      margin-bottom: clamp(10px, 1.5vh, 18px);
+      margin-bottom: clamp(10px, 1vw, 18px);
     }
 
     .detail-area {
@@ -218,30 +221,32 @@
       grid-template-columns: 1fr 1fr;
       gap: clamp(8px, 1vw, 14px);
       border-top: 1px solid var(--line);
-      padding-top: clamp(10px, 1.5vh, 18px);
+      padding-top: clamp(10px, 1vw, 18px);
     }
 
     .detail-box {
-      min-height: 0;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 0;
     }
 
     .detail-label {
-      font-size: clamp(10px, 0.95vw, 14px);
-      font-weight: 750;
-      letter-spacing: 1.3px;
+      font-size: clamp(0.68rem, 0.8vw, 1rem);
+      font-weight: 850;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 5px;
+      margin-bottom: clamp(3px, 0.4vw, 7px);
     }
 
     .detail-value {
-      font-size: clamp(17px, 1.75vw, 24px);
-      font-weight: 850;
+      font-size: clamp(1rem, 1.35vw, 1.7rem);
+      font-weight: 900;
       color: var(--text);
+      white-space: nowrap;
     }
 
     .tomorrow {
@@ -251,70 +256,98 @@
     .error {
       margin-top: 8px;
       color: var(--error);
-      font-size: clamp(11px, 1vw, 15px);
-      font-weight: 650;
+      font-size: clamp(0.72rem, 0.85vw, 1rem);
+      font-weight: 700;
     }
 
     .placeholder-card {
-      background: linear-gradient(180deg, rgba(24, 72, 61, 0.82), rgba(18, 59, 50, 0.82));
+      background:
+        linear-gradient(180deg, rgba(24, 72, 61, 0.82), rgba(18, 59, 50, 0.82));
       justify-content: center;
-      padding: clamp(18px, 2.2vw, 34px);
+      padding: clamp(18px, 2vw, 38px);
     }
 
     .placeholder-label {
-      font-size: clamp(12px, 1.2vw, 18px);
-      font-weight: 800;
-      letter-spacing: 2.2px;
+      font-size: clamp(0.75rem, 0.95vw, 1.2rem);
+      font-weight: 900;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: clamp(12px, 2vh, 24px);
+      margin-bottom: clamp(14px, 1.5vw, 26px);
     }
 
     .placeholder-title {
-      font-size: clamp(26px, 3.6vw, 44px);
-      font-weight: 850;
+      font-size: clamp(2rem, 3.2vw, 4rem);
+      font-weight: 900;
       color: var(--text);
-      letter-spacing: -1px;
-      margin-bottom: clamp(8px, 1.3vh, 14px);
+      letter-spacing: -0.06em;
       line-height: 1;
+      margin-bottom: clamp(10px, 1vw, 16px);
     }
 
     .placeholder-status {
-      font-size: clamp(17px, 1.9vw, 24px);
-      font-weight: 800;
+      font-size: clamp(1.15rem, 1.65vw, 2rem);
+      font-weight: 900;
       color: var(--accent);
+      line-height: 1.1;
     }
 
     .placeholder-note {
-      margin-top: clamp(8px, 1.3vh, 14px);
-      font-size: clamp(13px, 1.25vw, 18px);
-      font-weight: 600;
+      margin-top: clamp(10px, 1vw, 16px);
+      font-size: clamp(0.85rem, 1.05vw, 1.35rem);
+      font-weight: 700;
       color: var(--muted);
-      max-width: 360px;
+      max-width: 34ch;
       line-height: 1.35;
     }
 
     .footer {
-      font-size: clamp(11px, 1vw, 16px);
-      font-weight: 650;
+      min-height: 0;
+      font-size: clamp(0.72rem, 0.85vw, 1rem);
+      font-weight: 750;
       color: var(--muted);
       text-align: center;
-      letter-spacing: 0.4px;
-      line-height: 1.2;
+      letter-spacing: 0.03em;
     }
 
-    @media (max-width: 900px) {
+    /* Large landscape screens: true kiosk mode, no scrolling. */
+    @media (min-width: 1000px) and (orientation: landscape) {
+      html,
       body {
-        align-items: flex-start;
-        overflow: auto;
-        padding: 16px;
+        height: 100%;
+        overflow: hidden;
       }
 
       .dashboard {
-        width: 100%;
-        height: auto;
-        min-height: 100vh;
+        height: 100dvh;
+      }
+    }
+
+    /* Medium screens/tablets: allow graceful reflow. */
+    @media (max-width: 1050px) {
+      body {
+        overflow: auto;
+      }
+
+      .dashboard {
+        min-height: 100dvh;
         grid-template-rows: auto auto auto auto;
+      }
+
+      .tile-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .tile {
+        min-height: clamp(260px, 38vh, 380px);
+      }
+    }
+
+    /* Phones/small portrait screens. */
+    @media (max-width: 680px) {
+      .dashboard {
+        padding: 16px;
+        gap: 16px;
       }
 
       .tile-grid {
@@ -322,16 +355,40 @@
       }
 
       .tile {
-        min-height: 260px;
+        min-height: 280px;
       }
 
       .weather-card .card-header {
-        justify-content: center;
-        flex-direction: column;
+        align-items: center;
       }
 
-      .location-block {
-        text-align: center;
+      .main-weather {
+        gap: 16px;
+      }
+    }
+
+    /* Short landscape screens, including some browser windows with toolbars visible. */
+    @media (max-height: 760px) and (min-width: 1000px) {
+      .dashboard {
+        padding: 14px 24px;
+        gap: 12px;
+      }
+
+      .day {
+        font-size: clamp(1.4rem, 2.5vw, 2.8rem);
+      }
+
+      .date {
+        font-size: clamp(0.9rem, 1.35vw, 1.5rem);
+      }
+
+      .main-time {
+        font-size: clamp(3rem, 5vw, 5.5rem);
+        margin-top: 4px;
+      }
+
+      .title {
+        margin-top: 6px;
       }
     }
   </style>
@@ -347,9 +404,10 @@
       <div class="title">Life at a Glance</div>
     </header>
 
-    <section class="tile-grid" id="weatherGrid"></section>
+    <section class="tile-grid top-row" id="weatherGrid"></section>
 
-    <section class="tile-grid">
+    <section class="tile-grid bottom-row">
+
       <section class="tile placeholder-card">
         <div class="placeholder-label">Module One</div>
         <div class="placeholder-title">Aircraft</div>
@@ -357,8 +415,8 @@
         <div class="placeholder-note">Future KSKF / KSAT traffic count within selected radius.</div>
       </section>
 
-      <section class="tile placeholder-card countdown-card">
-        <div class="placeholder-title" id="retirementCountdown">--- DAYS</div>
+      <section class="tile placeholder-card">
+        <div class="placeholder-title" id="retirementCountdown">---</div>
         <div class="placeholder-status">Retirement</div>
         <div class="placeholder-note">Until September 17, 2028</div>
       </section>
@@ -369,12 +427,20 @@
         <div class="placeholder-status">Coming Soon</div>
         <div class="placeholder-note">Future Google Calendar connection and next events.</div>
       </section>
+
     </section>
 
     <div class="footer" id="footerStatus">Weather refreshes every 15 minutes</div>
+
   </main>
 
   <script>
+    /* ============================================================
+       CONFIGURATION
+       Add or change cities here.
+       Weather.gov supports U.S. locations only.
+    ============================================================ */
+
     const WEATHER_TILES = [
       {
         main: "Omaha",
@@ -401,6 +467,12 @@
         timeZone: "America/New_York"
       }
     ];
+
+    const RETIREMENT_DATE = new Date("2028-09-17T00:00:00");
+
+    /* ============================================================
+       UTILITY FUNCTIONS
+    ============================================================ */
 
     function cToF(celsius) {
       if (celsius === null || celsius === undefined) return null;
@@ -449,11 +521,17 @@
       });
     }
 
+    /* ============================================================
+       MAIN LOCKSCREEN CLOCK
+    ============================================================ */
+
     function updateMainClock() {
       const now = new Date();
 
       document.getElementById("mainDay").textContent =
-        now.toLocaleDateString("en-US", { weekday: "long" });
+        now.toLocaleDateString("en-US", {
+          weekday: "long"
+        });
 
       document.getElementById("mainDate").textContent =
         now.toLocaleDateString("en-US", {
@@ -468,6 +546,26 @@
           minute: "2-digit"
         });
     }
+
+    /* ============================================================
+       RETIREMENT COUNTDOWN
+    ============================================================ */
+
+    function updateRetirementCountdown() {
+      const now = new Date();
+      const millisecondsPerDay = 1000 * 60 * 60 * 24;
+      const difference = RETIREMENT_DATE - now;
+      const daysRemaining = Math.max(0, Math.ceil(difference / millisecondsPerDay));
+      const element = document.getElementById("retirementCountdown");
+
+      if (element) {
+        element.textContent = daysRemaining + " DAYS";
+      }
+    }
+
+    /* ============================================================
+       WEATHER CARD CREATION
+    ============================================================ */
 
     function createWeatherCard(city, index) {
       const card = document.createElement("section");
@@ -492,17 +590,23 @@
           </div>
 
           <div class="condition" id="weather-condition-${index}">Loading...</div>
-          <div class="feels">Feels Like <span id="weather-feels-${index}">--</span>°</div>
+          <div class="feels">
+            Feels Like <span id="weather-feels-${index}">--</span>°
+          </div>
 
           <div class="detail-area">
             <div class="detail-box">
               <div class="detail-label">Humidity</div>
-              <div class="detail-value"><span id="weather-humidity-${index}">--</span>%</div>
+              <div class="detail-value">
+                <span id="weather-humidity-${index}">--</span>%
+              </div>
             </div>
 
             <div class="detail-box">
               <div class="detail-label">Tomorrow</div>
-              <div class="detail-value tomorrow" id="weather-tomorrow-${index}">--° / --°</div>
+              <div class="detail-value tomorrow" id="weather-tomorrow-${index}">
+                --° / --°
+              </div>
             </div>
           </div>
 
@@ -513,17 +617,28 @@
       document.getElementById("weatherGrid").appendChild(card);
     }
 
+    /* ============================================================
+       WEATHER CLOCKS
+    ============================================================ */
+
     function updateWeatherTileClocks() {
       WEATHER_TILES.forEach((city, index) => {
         const element = document.getElementById(`city-time-${index}`);
-        if (element) element.textContent = formatTimeForZone(city.timeZone);
+        if (element) {
+          element.textContent = formatTimeForZone(city.timeZone);
+        }
       });
     }
+
+    /* ============================================================
+       WEATHER.GOV DATA
+    ============================================================ */
 
     async function getLatestObservationFromStations(stations) {
       for (const stationFeature of stations.features) {
         const stationId = stationFeature.properties.stationIdentifier;
-        const observationUrl = `https://api.weather.gov/stations/${stationId}/observations/latest`;
+        const observationUrl =
+          `https://api.weather.gov/stations/${stationId}/observations/latest`;
 
         try {
           const response = await fetch(observationUrl);
@@ -551,11 +666,16 @@
       const errorElement = document.getElementById(`weather-error-${index}`);
 
       try {
-        const pointUrl = `https://api.weather.gov/points/${city.weatherLat},${city.weatherLon}`;
+        const pointUrl =
+          `https://api.weather.gov/points/${city.weatherLat},${city.weatherLon}`;
+
         const pointResponse = await fetch(pointUrl);
-        if (!pointResponse.ok) throw new Error("Unable to load weather point data");
+        if (!pointResponse.ok) {
+          throw new Error("Unable to load weather point data");
+        }
 
         const pointData = await pointResponse.json();
+
         const forecastUrl = pointData.properties.forecast;
         const stationsUrl = pointData.properties.observationStations;
 
@@ -578,16 +698,20 @@
         const currentTempF = cToF(current.temperature.value);
 
         const humidity =
-          current.relativeHumidity && current.relativeHumidity.value !== null
+          current.relativeHumidity &&
+          current.relativeHumidity.value !== null
             ? Math.round(current.relativeHumidity.value)
             : null;
 
-        const feelsLike = humidity !== null ? heatIndexF(currentTempF, humidity) : currentTempF;
+        const feelsLike =
+          humidity !== null ? heatIndexF(currentTempF, humidity) : currentTempF;
+
         const currentForecast = periods[0];
 
         const tomorrowDay = periods.find(period => {
           const periodDate = new Date(period.startTime);
           const now = new Date();
+
           return period.isDaytime && periodDate.getDate() !== now.getDate();
         });
 
@@ -597,14 +721,24 @@
           const periodDate = new Date(period.startTime);
           const tomorrowDate = new Date(tomorrowDay.startTime);
 
-          return !period.isDaytime && periodDate.getDate() === tomorrowDate.getDate();
+          return !period.isDaytime &&
+                 periodDate.getDate() === tomorrowDate.getDate();
         });
 
-        document.getElementById(`weather-temp-${index}`).textContent = currentTempF ?? "--";
-        document.getElementById(`weather-feels-${index}`).textContent = feelsLike ?? "--";
-        document.getElementById(`weather-humidity-${index}`).textContent = humidity ?? "--";
-        document.getElementById(`weather-condition-${index}`).textContent = currentForecast.shortForecast || "Current conditions";
-        document.getElementById(`weather-icon-${index}`).textContent = iconForForecast(currentForecast.shortForecast);
+        document.getElementById(`weather-temp-${index}`).textContent =
+          currentTempF ?? "--";
+
+        document.getElementById(`weather-feels-${index}`).textContent =
+          feelsLike ?? "--";
+
+        document.getElementById(`weather-humidity-${index}`).textContent =
+          humidity ?? "--";
+
+        document.getElementById(`weather-condition-${index}`).textContent =
+          currentForecast.shortForecast || "Current conditions";
+
+        document.getElementById(`weather-icon-${index}`).textContent =
+          iconForForecast(currentForecast.shortForecast);
 
         if (tomorrowDay && tomorrowNight) {
           document.getElementById(`weather-tomorrow-${index}`).textContent =
@@ -619,7 +753,9 @@
     }
 
     function loadAllWeather() {
-      WEATHER_TILES.forEach((city, index) => loadWeather(city, index));
+      WEATHER_TILES.forEach((city, index) => {
+        loadWeather(city, index);
+      });
 
       const now = new Date();
       document.getElementById("footerStatus").textContent =
@@ -630,31 +766,22 @@
         });
     }
 
+    /* ============================================================
+       INITIALIZE
+    ============================================================ */
 
-    const RETIREMENT_DATE = new Date("2028-09-17T00:00:00");
-
-    function updateRetirementCountdown() {
-      const now = new Date();
-      const millisecondsPerDay = 1000 * 60 * 60 * 24;
-      const difference = RETIREMENT_DATE - now;
-      const daysRemaining = Math.max(0, Math.ceil(difference / millisecondsPerDay));
-      const element = document.getElementById("retirementCountdown");
-
-      if (element) {
-        element.textContent = daysRemaining + " DAYS";
-      }
-    }
-
-    WEATHER_TILES.forEach((city, index) => createWeatherCard(city, index));
+    WEATHER_TILES.forEach((city, index) => {
+      createWeatherCard(city, index);
+    });
 
     updateMainClock();
-    updateWeatherTileClocks();
     updateRetirementCountdown();
+    updateWeatherTileClocks();
     loadAllWeather();
 
     setInterval(updateMainClock, 1000);
-    setInterval(updateWeatherTileClocks, 1000);
     setInterval(updateRetirementCountdown, 60 * 60 * 1000);
+    setInterval(updateWeatherTileClocks, 1000);
     setInterval(loadAllWeather, 15 * 60 * 1000);
   </script>
 </body>
