@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Omaha Weather</title>
+  <link rel="stylesheet" href="../css/ryanos.css" />
+</head>
+<body class="tile-page">
+  <section class="tile weather-tile">
+    <div class="tile-header">
+      <div class="location-block">
+        <div class="location-main" id="locationMain">Omaha</div>
+        <div class="location-sub" id="locationSub">Nebraska · KOMA</div>
+      </div>
+      <div class="local-time" id="localTime">--:--</div>
+    </div>
+
+    <div class="weather-body">
+      <div class="main-weather">
+        <div class="icon" id="weatherIcon">⛅</div>
+        <div class="temp"><span id="weatherTemp">--</span><span class="degree">°</span></div>
+      </div>
+      <div class="condition" id="weatherCondition">Loading...</div>
+      <div class="feels">Feels Like <span id="weatherFeels">--</span>°</div>
+      <div class="detail-area">
+        <div class="detail-box">
+          <div class="detail-label">Humidity</div>
+          <div class="detail-value"><span id="weatherHumidity">--</span>%</div>
+        </div>
+        <div class="detail-box">
+          <div class="detail-label">Tomorrow</div>
+          <div class="detail-value tomorrow" id="weatherTomorrow">--° / --°</div>
+        </div>
+      </div>
+      <div class="error" id="weatherError"></div>
+    </div>
+  </section>
+
+  <script>
+    // EASY EDIT: change this block to change the city for this Weather tile.
+    window.RYANOS_WEATHER_TILE = {
+      main: "Omaha",
+      sub: "Nebraska",
+      weatherLat: 41.2565,
+      weatherLon: -95.9345,
+      airport: "KOMA",
+      timeZone: "America/Chicago"
+    };
+  </script>
+  <script src="../scripts/weather-tile.js"></script>
+</body>
+</html>
