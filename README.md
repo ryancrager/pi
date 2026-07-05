@@ -1,39 +1,57 @@
-# RyanOS v0.6 Modular
+# RyanOS v1.0
 
-## Main idea
-- `index.html` is the frame and tile grid.
-- Each tile lives in `tiles/` and can be edited independently.
+## What this is
+RyanOS v1.0 is a modular dashboard system.
+
+- `index.html` is the main dashboard frame.
+- The dashboard is built automatically from the true/false configuration at the top of `index.html`.
+- Each module lives in its own standalone file inside `tiles/`.
 - Shared styling lives in `css/ryanos.css`.
 - Shared logic lives in `scripts/`.
 
-## Change Omaha to Phoenix
-Edit only:
+## Show or hide modules
+Edit only `index.html`.
 
-`tiles/weather-a.html`
-
-Find the block near the bottom:
+At the top, change any module from `true` to `false`:
 
 ```js
-window.RYANOS_WEATHER_TILE = {
-  main: "Omaha",
-  sub: "Nebraska",
-  weatherLat: 41.2565,
-  weatherLon: -95.9345,
-  airport: "KOMA",
-  timeZone: "America/Chicago"
+window.RYANOS_MODULES = {
+  "weather-a": true,
+  "weather-b": true,
+  "weather-c": true,
+  "flights": true,
+  "retirement": true,
+  "chester": true,
+  "seven": false,
+  "eight": false,
+  "nine": false
 };
 ```
 
-## Remove a tile from the main page
-Edit only `index.html`.
-Delete the full `<section class="tile-slot">...</section>` block for that tile.
+Disabled modules leave no blank space. The grid rebuilds around the enabled modules.
 
-## Hide a tile without deleting it
-Add `hidden` to the section:
+## Change a weather city
+Do not edit `index.html`.
 
-```html
-<section class="tile-slot" data-tile="TBD 1" hidden>
-```
+Open the weather tile file you want:
 
-## Reorder tiles
-Cut and paste the full tile-slot section blocks in `index.html`.
+- `tiles/weather-a.html`
+- `tiles/weather-b.html`
+- `tiles/weather-c.html`
+
+Change only the `window.RYANOS_WEATHER_TILE` block near the bottom of that file.
+
+## Tile filenames
+These names are intentionally stable:
+
+- `weather-a.html`
+- `weather-b.html`
+- `weather-c.html`
+- `flights.html`
+- `retirement.html`
+- `chester.html`
+- `seven.html`
+- `eight.html`
+- `nine.html`
+
+If the purpose of a tile changes later, keep the filename and edit the tile contents.

@@ -8,84 +8,66 @@
 </head>
 <body>
   <main class="dashboard-shell">
-    <header class="ryanos-header">
+    <header class="ryanos-header" aria-label="RyanOS clock">
       <div class="day" id="mainDay">Loading</div>
       <div class="date" id="mainDate">Loading date</div>
       <div class="main-time" id="mainTime">--:--</div>
-      <div class="os-title">RYANOS</div>
     </header>
 
-    <!-- =========================================================
-         TILE LAYOUT — EASY EDIT ZONE
+    <section class="tile-grid-main" id="tileGrid" aria-label="RyanOS module grid"></section>
 
-         Each tile is one <section> block.
-
-         To REMOVE a tile:
-         - Delete the whole <section class="tile-slot">...</section> block.
-
-         To HIDE a tile without deleting it:
-         - Add hidden to the section, like:
-           <section class="tile-slot" hidden>
-
-         To REORDER tiles:
-         - Cut/paste the whole section block.
-
-         To CHANGE a tile's contents:
-         - Do NOT edit index.html.
-         - Open the file listed in src="..." and edit that file instead.
-    ========================================================== -->
-    <section class="tile-grid-main" id="tileGrid">
-
-      <!-- WEATHER A — edit this tile in: tiles/weather-a.html -->
-      <section class="tile-slot" data-tile="Weather A">
-        <iframe src="tiles/weather-a.html" title="Weather A"></iframe>
-      </section>
-
-      <!-- WEATHER B — edit this tile in: tiles/weather-b.html -->
-      <section class="tile-slot" data-tile="Weather B">
-        <iframe src="tiles/weather-b.html" title="Weather B"></iframe>
-      </section>
-
-      <!-- WEATHER C — edit this tile in: tiles/weather-c.html -->
-      <section class="tile-slot" data-tile="Weather C">
-        <iframe src="tiles/weather-c.html" title="Weather C"></iframe>
-      </section>
-
-      <!-- FLIGHTS — edit this tile in: tiles/flights.html -->
-      <section class="tile-slot" data-tile="Flights">
-        <iframe src="tiles/flights.html" title="Flights"></iframe>
-      </section>
-
-      <!-- RETIREMENT — edit this tile in: tiles/retirement.html -->
-      <section class="tile-slot" data-tile="Retirement">
-        <iframe src="tiles/retirement.html" title="Retirement"></iframe>
-      </section>
-
-      <!-- CHESTER — edit this tile in: tiles/chester.html -->
-      <section class="tile-slot" data-tile="Chester">
-        <iframe src="tiles/chester.html" title="Mayor Chester"></iframe>
-      </section>
-
-      <!-- TBD 1 — edit this tile in: tiles/tbd-1.html -->
-      <section class="tile-slot" data-tile="TBD 1">
-        <iframe src="tiles/tbd-1.html" title="TBD 1"></iframe>
-      </section>
-
-      <!-- TBD 2 — edit this tile in: tiles/tbd-2.html -->
-      <section class="tile-slot" data-tile="TBD 2">
-        <iframe src="tiles/tbd-2.html" title="TBD 2"></iframe>
-      </section>
-
-      <!-- TBD 3 — edit this tile in: tiles/tbd-3.html -->
-      <section class="tile-slot" data-tile="TBD 3">
-        <iframe src="tiles/tbd-3.html" title="TBD 3"></iframe>
-      </section>
-
-    </section>
-
-    <footer class="ryanos-footer">RYANOS v0.6 Modular</footer>
+    <footer class="ryanos-footer">RYANOS v1.0</footer>
   </main>
 
+  <script>
+    /* ==========================================================
+       RYANOS v1.0 CONFIGURATION
+
+       This is the main control panel.
+       Change true / false to show or hide modules.
+
+       Do not edit the dashboard grid below. It is built automatically.
+    ========================================================== */
+
+    window.RYANOS_VERSION = "1.0";
+
+    window.RYANOS_MODULES = {
+      "weather-a": true,
+      "weather-b": true,
+      "weather-c": true,
+
+      "flights": true,
+      "retirement": true,
+      "chester": true,
+
+      "seven": true,
+      "eight": true,
+      "nine": true
+    };
+
+    /* ==========================================================
+       TILE REGISTRY
+
+       These names are stable. If Weather A changes from Omaha to
+       Phoenix, keep the filename weather-a.html and edit only:
+
+       tiles/weather-a.html
+    ========================================================== */
+
+    window.RYANOS_TILES = [
+      { id: "weather-a", title: "Weather A", file: "tiles/weather-a.html" },
+      { id: "weather-b", title: "Weather B", file: "tiles/weather-b.html" },
+      { id: "weather-c", title: "Weather C", file: "tiles/weather-c.html" },
+
+      { id: "flights", title: "Flights", file: "tiles/flights.html" },
+      { id: "retirement", title: "Retirement", file: "tiles/retirement.html" },
+      { id: "chester", title: "Mayor Chester", file: "tiles/chester.html" },
+
+      { id: "seven", title: "Seven", file: "tiles/seven.html" },
+      { id: "eight", title: "Eight", file: "tiles/eight.html" },
+      { id: "nine", title: "Nine", file: "tiles/nine.html" }
+    ];
+  </script>
   <script src="scripts/dashboard.js"></script>
 </body>
 </html>

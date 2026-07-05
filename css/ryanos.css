@@ -22,7 +22,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body { width: 100%; min-height: 100%; margin: 0; }
+/* ---------- Page Foundation ---------- */
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
 body {
   background:
     radial-gradient(circle at top left, rgba(125, 223, 156, 0.10), transparent 34%),
@@ -35,11 +42,11 @@ body {
 /* ---------- Main Dashboard Frame ---------- */
 .dashboard-shell {
   width: 100vw;
-  min-height: 100dvh;
-  padding: clamp(12px, 1.6vw, 30px);
+  height: 100dvh;
+  padding: clamp(10px, 1.35vw, 26px);
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: clamp(10px, 1.2vw, 20px);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(8px, 1vw, 18px);
   overflow: hidden;
 }
 
@@ -49,42 +56,32 @@ body {
 }
 
 .day {
-  font-size: clamp(1.4rem, 2.4vw, 2.8rem);
+  font-size: clamp(1.25rem, 2.1vw, 2.6rem);
   font-weight: 850;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
 }
 
 .date {
-  margin-top: 0.25rem;
-  font-size: clamp(0.9rem, 1.25vw, 1.5rem);
+  margin-top: 0.22rem;
+  font-size: clamp(0.85rem, 1.1vw, 1.35rem);
   font-weight: 750;
   color: var(--muted);
 }
 
 .main-time {
-  margin-top: 0.4rem;
-  font-size: clamp(3.2rem, 5.6vw, 6.2rem);
+  margin-top: 0.35rem;
+  font-size: clamp(3rem, 5.25vw, 5.9rem);
   font-weight: 900;
   color: var(--gold);
-  letter-spacing: -0.01em;
+  letter-spacing: 0.005em;
   font-variant-numeric: tabular-nums;
   font-kerning: normal;
-}
-
-.os-title {
-  margin-top: 0.4rem;
-  font-size: clamp(0.8rem, 1.1vw, 1.3rem);
-  font-weight: 850;
-  color: var(--accent);
-  letter-spacing: clamp(0.18em, 0.45vw, 0.35em);
-  text-transform: uppercase;
 }
 
 .tile-grid-main {
   min-height: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(10px, 1.25vw, 22px);
+  gap: clamp(8px, 1vw, 18px);
 }
 
 .tile-slot {
@@ -105,75 +102,111 @@ body {
   background: transparent;
 }
 
-/* Automatic layout for 1-9 visible tile slots. Delete/hide tiles in index.html and this adapts. */
-.tile-grid-main.tile-count-1 { grid-template-columns: minmax(0, 1fr); }
-.tile-grid-main.tile-count-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.tile-grid-main.tile-count-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.tile-grid-main.tile-count-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* ---------- Automatic Dashboard Layouts ---------- */
+.tile-grid-main.tile-count-1 {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.tile-grid-main.tile-count-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.tile-grid-main.tile-count-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.tile-grid-main.tile-count-4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
 .tile-grid-main.tile-count-5,
-.tile-grid-main.tile-count-6,
+.tile-grid-main.tile-count-6 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
 .tile-grid-main.tile-count-7,
 .tile-grid-main.tile-count-8,
-.tile-grid-main.tile-count-9 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tile-grid-main.tile-count-9 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+}
 
 .ryanos-footer {
   min-height: 0;
-  font-size: clamp(0.68rem, 0.8vw, 0.95rem);
+  font-size: clamp(0.62rem, 0.75vw, 0.9rem);
   font-weight: 750;
   color: var(--muted);
   text-align: center;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.08em;
 }
 
-/* ---------- Tile Page Base ---------- */
-.tile-page {
-  min-height: 100dvh;
+/* ---------- Individual Tile Pages ---------- */
+body.tile-page {
+  width: 100vw;
+  height: 100dvh;
   overflow: hidden;
-  background: transparent;
+  background: linear-gradient(180deg, var(--tile-2), var(--tile));
 }
 
 .tile {
   width: 100%;
-  min-height: 100dvh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
   background: linear-gradient(180deg, var(--tile-2), var(--tile));
   color: var(--text);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
+.tile-page .tile {
+  border-radius: 0;
+}
+
 .tile-header {
   width: 100%;
-  padding: clamp(10px, 1vw, 18px) clamp(14px, 1.4vw, 26px);
+  padding: clamp(9px, 1vw, 18px) clamp(13px, 1.45vw, 26px);
   border-bottom: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
 }
 
-.location-block { min-width: 0; text-align: left; }
+.location-block {
+  min-width: 0;
+  text-align: left;
+}
+
 .location-main {
-  font-size: clamp(1rem, 1.35vw, 1.8rem);
+  font-size: clamp(0.95rem, 1.35vw, 1.75rem);
   font-weight: 900;
-  letter-spacing: -0.03em;
+  color: var(--text);
+  letter-spacing: -0.025em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .location-sub {
   margin-top: 2px;
-  font-size: clamp(0.68rem, 0.8vw, 1.05rem);
+  font-size: clamp(0.65rem, 0.8vw, 1rem);
   font-weight: 700;
   color: var(--muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .local-time {
-  font-size: clamp(0.8rem, 1vw, 1.3rem);
+  font-size: clamp(0.82rem, 1vw, 1.3rem);
   font-weight: 900;
   color: var(--gold);
   white-space: nowrap;
@@ -184,126 +217,170 @@ body {
   width: 100%;
   flex: 1;
   min-height: 0;
-  padding: clamp(6px, 0.75vw, 14px) clamp(14px, 1.4vw, 26px);
+  padding: clamp(7px, 0.85vw, 16px) clamp(13px, 1.45vw, 26px);
   display: grid;
-  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-rows: auto auto auto minmax(0, auto) auto;
   align-items: center;
   justify-items: center;
 }
+
 .main-weather {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: clamp(10px, 1.1vw, 22px);
+  margin-bottom: clamp(2px, 0.35vw, 8px);
   min-width: 0;
 }
-.icon { font-size: clamp(1.8rem, 3.1vw, 4rem); line-height: 1; }
+
+.icon {
+  font-size: clamp(1.7rem, 3.5vw, 4.4rem);
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
 .temp {
-  font-size: clamp(2.7rem, 4.8vw, 6.2rem);
+  font-size: clamp(2.55rem, 4.9vw, 6rem);
   font-weight: 900;
   letter-spacing: 0.015em;
   font-variant-numeric: tabular-nums;
   line-height: 0.85;
   white-space: nowrap;
 }
+
 .degree {
   font-size: 0.45em;
   color: var(--accent);
   vertical-align: top;
   margin-left: 0.03em;
 }
+
 .condition {
   max-width: 94%;
   font-size: clamp(0.85rem, 1.22vw, 1.55rem);
   font-weight: 900;
-  line-height: 1;
+  color: var(--text);
+  line-height: 1.02;
+  margin-bottom: clamp(2px, 0.3vw, 6px);
 }
+
 .feels {
   font-size: clamp(0.78rem, 0.95vw, 1.2rem);
   font-weight: 750;
   color: var(--muted);
+  margin-bottom: clamp(6px, 0.75vw, 13px);
 }
+
 .detail-area {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(6px, 0.8vw, 12px);
+  gap: clamp(6px, 0.85vw, 12px);
   border-top: 1px solid var(--line);
-  padding-top: clamp(6px, 0.6vw, 11px);
+  padding-top: clamp(6px, 0.65vw, 12px);
 }
+
+.detail-box {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .detail-label {
-  font-size: clamp(0.58rem, 0.66vw, 0.86rem);
+  font-size: clamp(0.58rem, 0.68vw, 0.82rem);
   font-weight: 850;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.17em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 0.25rem;
+  margin-bottom: clamp(2px, 0.3vw, 5px);
 }
+
 .detail-value {
-  font-size: clamp(0.9rem, 1.1vw, 1.35rem);
+  font-size: clamp(0.85rem, 1.1vw, 1.38rem);
   font-weight: 900;
   color: var(--text);
   white-space: nowrap;
 }
-.tomorrow { color: var(--accent); }
-.error { color: var(--error); font-size: 0.78rem; font-weight: 700; }
 
-/* ---------- Simple Non-weather Tiles ---------- */
+.tomorrow { color: var(--accent); }
+
+.error {
+  margin-top: 6px;
+  color: var(--error);
+  font-size: clamp(0.65rem, 0.75vw, 0.9rem);
+  font-weight: 700;
+}
+
 .simple-tile {
   justify-content: center;
-  padding: clamp(18px, 2vw, 36px);
-  gap: clamp(10px, 1vw, 18px);
+  padding: clamp(14px, 1.7vw, 34px);
+  gap: clamp(8px, 1vw, 16px);
 }
+
 .tile-label {
-  font-size: clamp(0.72rem, 0.85vw, 1.1rem);
+  font-size: clamp(0.7rem, 0.85vw, 1.05rem);
   font-weight: 900;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
 }
+
 .tile-hero {
-  font-size: clamp(1.8rem, 3vw, 3.7rem);
+  font-size: clamp(1.8rem, 2.9vw, 3.6rem);
   font-weight: 900;
   color: var(--text);
-  letter-spacing: -0.025em;
-  line-height: 1.02;
+  letter-spacing: -0.035em;
+  line-height: 1;
   font-variant-numeric: tabular-nums;
 }
+
 .tile-status {
   font-size: clamp(1rem, 1.45vw, 1.8rem);
   font-weight: 900;
   color: var(--accent);
   line-height: 1.1;
 }
+
 .tile-note {
-  font-size: clamp(0.8rem, 0.95vw, 1.25rem);
+  font-size: clamp(0.76rem, 0.9vw, 1.15rem);
   font-weight: 700;
   color: var(--muted);
-  max-width: 34ch;
-  line-height: 1.35;
+  max-width: 36ch;
+  line-height: 1.3;
 }
+
 .chester-title {
   font-size: clamp(0.95rem, 1.35vw, 1.7rem);
   font-weight: 900;
-  letter-spacing: 0.08em;
+  color: var(--text);
+  letter-spacing: 0.07em;
   line-height: 1.1;
 }
+
 .chester-age {
-  font-size: clamp(1.2rem, 1.8vw, 2.5rem);
+  font-size: clamp(1.15rem, 1.75vw, 2.35rem);
   font-weight: 900;
   color: var(--text);
   line-height: 1.1;
 }
+
 .chester-human-age {
-  font-size: clamp(1rem, 1.45vw, 1.8rem);
+  font-size: clamp(1rem, 1.45vw, 1.85rem);
   font-weight: 900;
   color: var(--accent);
   line-height: 1.1;
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 900px) {
-  .dashboard-shell { overflow: auto; }
+/* ---------- Smaller Screens ---------- */
+@media (max-width: 1050px) {
+  .dashboard-shell {
+    height: auto;
+    min-height: 100dvh;
+    overflow: auto;
+  }
+
   .tile-grid-main,
   .tile-grid-main.tile-count-1,
   .tile-grid-main.tile-count-2,
@@ -313,6 +390,79 @@ body {
   .tile-grid-main.tile-count-6,
   .tile-grid-main.tile-count-7,
   .tile-grid-main.tile-count-8,
-  .tile-grid-main.tile-count-9 { grid-template-columns: 1fr; }
-  .tile-slot { min-height: 280px; }
+  .tile-grid-main.tile-count-9 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(260px, 34vh);
+  }
+}
+
+@media (max-width: 680px) {
+  .dashboard-shell {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .tile-grid-main,
+  .tile-grid-main.tile-count-1,
+  .tile-grid-main.tile-count-2,
+  .tile-grid-main.tile-count-3,
+  .tile-grid-main.tile-count-4,
+  .tile-grid-main.tile-count-5,
+  .tile-grid-main.tile-count-6,
+  .tile-grid-main.tile-count-7,
+  .tile-grid-main.tile-count-8,
+  .tile-grid-main.tile-count-9 {
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(280px, auto);
+  }
+}
+
+@media (max-height: 760px) and (min-width: 1000px) {
+  .dashboard-shell {
+    padding: 10px 18px;
+    gap: 8px;
+  }
+
+  .main-time {
+    font-size: clamp(2.5rem, 4.5vw, 4.8rem);
+    margin-top: 0.25rem;
+  }
+
+  .day { font-size: clamp(1.1rem, 1.9vw, 2rem); }
+  .date { font-size: clamp(0.75rem, 1vw, 1.1rem); }
+  .ryanos-footer { font-size: 0.65rem; }
+}
+
+/* ---------- Balanced large-screen layouts for non-3/6/9 counts ---------- */
+@media (min-width: 1051px) {
+  .tile-grid-main.tile-count-5 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .tile-grid-main.tile-count-5 .tile-slot { grid-column: span 2; }
+  .tile-grid-main.tile-count-5 .tile-slot:nth-child(4),
+  .tile-grid-main.tile-count-5 .tile-slot:nth-child(5) { grid-column: span 3; }
+
+  .tile-grid-main.tile-count-7 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+  .tile-grid-main.tile-count-7 .tile-slot { grid-column: span 2; }
+  .tile-grid-main.tile-count-7 .tile-slot:nth-child(7) { grid-column: 1 / -1; }
+
+  .tile-grid-main.tile-count-8 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+  .tile-grid-main.tile-count-8 .tile-slot { grid-column: span 2; }
+  .tile-grid-main.tile-count-8 .tile-slot:nth-child(7),
+  .tile-grid-main.tile-count-8 .tile-slot:nth-child(8) { grid-column: span 3; }
+}
+
+.tile-slot > .tile {
+  height: 100%;
+}
+
+@media (max-width: 1050px) {
+  .tile-slot { grid-column: auto !important; }
 }
