@@ -36,7 +36,7 @@ body {
     rgba(7,31,26,.30),
     rgba(4,21,18,.45)
   ),
-  url("assets/lakeside-background.webp");
+  url("../lakeside-background.webp")
 
 background-size: cover;
 background-position: center center;
