@@ -31,12 +31,8 @@ body {
 }
 
 body {
-  background:
-    linear-gradient(
-      rgba(4,18,14,.45),
-      rgba(4,18,14,.55)
-    ),
-    url("../lake.jpg");
+  background-color: #5C4033;
+}
 
   background-size: cover;
   background-position: center;
