@@ -11,7 +11,6 @@
     if (element) {
       element.textContent = `${daysRemaining} DAYS`;
     }
-  }
 
   updateChristmasCountdown();
   setInterval(updateChristmasCountdown, 60 * 60 * 1000);
